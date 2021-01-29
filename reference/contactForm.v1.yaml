@@ -1,0 +1,349 @@
+openapi: 3.0.0
+info:
+  title: contactForm
+  version: '1.0'
+  description: contcat form doc
+  contact:
+    name: sasidhar
+    email: sasidhar7203@gmail.com
+    url: 'https://zoom4web.stoplight.io/'
+  termsOfService: 'https://zoom4web.stoplight.io/'
+  license:
+    name: MIT
+servers:
+  - url: 'http://lfi.contact/v1'
+    description: sasidhar medikonda
+paths:
+  '/users/{userId}':
+    parameters:
+      - schema:
+          type: integer
+        name: userId
+        in: path
+        required: true
+        description: Id of an existing user.
+    get:
+      summary: Get User Info by User ID
+      tags: []
+      responses:
+        '200':
+          description: User Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                Get User Alice Smith:
+                  value:
+                    id: 142
+                    firstName: Alice
+                    lastName: Smith
+                    email: alice.smith@gmail.com
+                    dateOfBirth: '1997-10-31'
+                    emailVerified: true
+                    signUpDate: '2019-08-24'
+                example-2:
+                  value:
+                    id: 0
+                    firstName: string
+                    lastName: string
+                    email: user@example.com
+                    dateOfBirth: '1997-10-31'
+                    emailVerified: true
+                    createDate: '2019-08-24'
+        '404':
+          description: User Not Found
+      operationId: get-users-userId
+      description: Retrieve the information of the user with the matching user ID.
+    patch:
+      summary: Update User Information
+      operationId: patch-users-userId
+      responses:
+        '200':
+          description: User Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                Updated User Rebecca Baker:
+                  value:
+                    id: 13
+                    firstName: Rebecca
+                    lastName: Baker
+                    email: rebecca@gmail.com
+                    dateOfBirth: '1985-10-02'
+                    emailVerified: false
+                    createDate: '2019-08-24'
+        '404':
+          description: User Not Found
+        '409':
+          description: Email Already Taken
+      description: Update the infromation of an existing user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                  description: 'If a new email is given, the user''s email verified property will be set to false.'
+                dateOfBirth:
+                  type: string
+            examples:
+              Update First Name:
+                value:
+                  firstName: Rebecca
+              Update Email:
+                value:
+                  email: rebecca@gmail.com
+              Update Last Name & Date of Birth:
+                value:
+                  lastName: Baker
+                  dateOfBirth: '1985-10-02'
+        description: Patch user properties to update.
+  /user:
+    post:
+      summary: Create New User
+      operationId: post-user
+      responses:
+        '200':
+          description: User Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                New User Bob Fellow:
+                  value:
+                    id: 12
+                    firstName: Bob
+                    lastName: Fellow
+                    email: bob.fellow@gmail.com
+                    dateOfBirth: '1996-08-24'
+                    emailVerified: false
+                    createDate: '2020-11-18'
+        '400':
+          description: Missing Required Information
+        '409':
+          description: Email Already Taken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                dateOfBirth:
+                  type: string
+                  format: date
+              required:
+                - firstName
+                - lastName
+                - email
+                - dateOfBirth
+            examples:
+              Create User Bob Fellow:
+                value:
+                  firstName: Bob
+                  lastName: Fellow
+                  email: bob.fellow@gmail.com
+                  dateOfBirth: '1996-08-24'
+        description: Post the necessary fields for the API to create a new user.
+      description: Create a new user.
+      parameters:
+        - schema:
+            type: string
+          in: query
+  /contactForm:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-contactForm
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: name
+        - schema:
+            type: string
+          in: query
+          name: service
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                service:
+                  type: string
+            examples:
+              example-1:
+                value: {}
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+    post:
+      summary: contactForm
+      tags:
+        - form
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+        '202':
+          description: Accepted
+        '203':
+          description: Non-Authoritative Information
+        '204':
+          description: No Content
+        '205':
+          description: Reset Content
+        '206':
+          description: Partial Content
+        '207':
+          description: Multi-Status (WebDAV)
+        '208':
+          description: Already Reported (WebDAV)
+        '226':
+          description: IM Used
+        '300':
+          description: Multiple Choices
+        '301':
+          description: Moved Permanently
+        '302':
+          description: Found
+        '303':
+          description: See Other
+        '304':
+          description: Not Modified
+        '305':
+          description: Use Proxy
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+        '501':
+          description: Not Implemented
+        '502':
+          description: Bad Gateway
+        '503':
+          description: Service Unavailable
+        '504':
+          description: Gateway Timeout
+        '505':
+          description: HTTP Version Not Supported
+        '506':
+          description: Variant Also Negotiates (Experimental)
+      operationId: post-contactForm
+      parameters:
+        - schema:
+            type: string
+          in: query
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                service:
+                  type: string
+    parameters: []
+  /contactform:
+    get:
+      summary: 'get '
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: get-contactform
+  /user/23:
+    get:
+      summary: h
+      tags: []
+      responses: {}
+      operationId: get-user-23
+components:
+  schemas:
+    User:
+      title: User
+      type: object
+      description: ''
+      x-examples:
+        Alice Smith:
+          id: 142
+          firstName: Alice
+          lastName: Smith
+          email: alice.smith@gmail.com
+          dateOfBirth: '1997-10-31'
+          emailVerified: true
+          signUpDate: '2019-08-24'
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given user.
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        dateOfBirth:
+          type: string
+          format: date
+          example: '1997-10-31'
+        emailVerified:
+          type: boolean
+          description: Set to true if the user's email has been verified.
+        createDate:
+          type: string
+          format: date
+          description: The date that the user was created.
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - emailVerified
+    contactform:
+      title: contactform
+      type: object
+      x-tags:
+        - form
+      x-examples:
+        example-1:
+          id: string
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        service:
+          type: string
+  securitySchemes:
+    API Key - 1:
+      type: oauth2
